@@ -1,0 +1,109 @@
+<aura:component controller="PropertyDetails"
+    implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="propertyList" type="Property__c[]"></aura:attribute>
+    <aura:attribute name="propertiesFound" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openOwnerDetails" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openEnquiryDetails" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="propOwnerId" type="string"></aura:attribute>
+    <aura:attribute name="propertyId" type="string"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.fetchAllProperty}" />
+    <lightning:navigation aura:id="navService"></lightning:navigation>
+    <aura:attribute name="pageReference" type="object"></aura:attribute>
+    <aura:attribute name="url" type="String"></aura:attribute>
+    <aura:if isTrue="{!v.propertiesFound}">
+        <lightning:layout multipleRows="true">
+            <aura:iteration items="{!v.propertyList}" var="prop">
+                <lightning:layoutItem padding="around-small" size="6">
+                    <lightning:layout multipleRows="true">
+                        <div class="slds-box" style="width:100%;background-color:white;">
+                            <lightning:layout>
+                                <lightning:layoutItem size="4" padding="around-small">
+                                    <div>
+                                        <img src="{!prop.Property_Main_Image1__c}" style="width: 100%; height: 100%" />
+                                    </div>
+                                    <!-- <lightning:formattedRichText value="{!prop.Property_Main_Image__c}">
+                                        no image
+                                    </lightning:formattedRichText> -->
+
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="8" padding="around-small">
+                                    <lightning:card title="{!prop.Furnished_Type__c}">
+                                        <lightning:layoutItem size="12" class="slds-var-m-left_x-large">
+                                            <p style="color:red">USD: {!prop.Rent__c}</p>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="slds-var-m-left_x-large">
+                                            <p>{!prop.No_Of_Bed_Room__c} BHK house for Rent
+                                                {!prop.Coverd_area_sqft__c} sqft.</p>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="slds-var-m-left_x-large">
+                                            <p>{!prop.Area__c}</p>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" class="slds-var-m-left_x-large">
+                                            <p>{!prop.No_Of_Bed_Room__c} Bedrooms
+                                                {!prop.No_Of_Bath_Room__c} Bathrooms {!prop.Furnished_Type__c}</p>
+                                        </lightning:layoutItem>
+                                    </lightning:card>
+                                    <div class="slds-var-p-top_small">
+                                        <lightning:buttonGroup>
+                                            <lightning:button class="btnStyle" label="Owner Details"
+                                                value="{!prop.Property_Owner__c}" variant="success"
+                                                onclick="{!c.ownerDetailsClick}" />
+                                            <lightning:button class="btnStyle" label="Enquiry" value="{!prop.Id}"
+                                                variant="success" onclick="{!c.feedbackClicked}" />
+                                            <lightning:button class="btnStyle" label="Property Details"
+                                                value="{!prop.Id}" variant="success"
+                                                onclick="{!c.navigateToPropertyDetails}" />
+                                        </lightning:buttonGroup>
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </aura:iteration>
+        </lightning:layout>
+        <aura:set attribute="else">
+            <span>Properties are not listed yet as per your selection. Please stay tune to future listing.</span>
+        </aura:set>
+    </aura:if>
+    <!-- Owner details section start -->
+
+    <aura:if isTrue="{!v.openOwnerDetails}">
+        <div style="margin-top:5%">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:card title="Property Owner Details" iconName="standard:people">
+                            <lightning:buttonIcon class="slds-modal__close" iconName="utility:close"
+                                onclick="{!c.closeOwnerModal}"></lightning:buttonIcon>
+                        </lightning:card>
+                    </header>
+                    <div class="slds-modal__content slds-var-p-around_medium">
+                        <c:ctrlf_PropertyOwner propertyOwnerId="{!v.propOwnerId}"></c:ctrlf_PropertyOwner>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </aura:if>
+    <!-- Owner details section end -->
+    <!-- Property Enquiry section -->
+    <aura:if isTrue="{!v.openEnquiryDetails}">
+        <div style="margin-top:5%">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon class="slds-modal__close" iconName="utility:close"
+                            onclick="{!c.closeEnquiryModal}">
+                        </lightning:buttonIcon>
+                    </header>
+                    <div class="slds-modal__content slds-var-p-around_medium">
+                        <c:ctrlf_MyPropertyEnquiery propertyId="{!v.propertyId}"></c:ctrlf_MyPropertyEnquiery>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </aura:if>
+
+
+</aura:component>

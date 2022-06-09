@@ -1,0 +1,28 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="propertyId" type="String"></aura:attribute>
+    <aura:attribute name="SuccessMsg" type="Boolean" default="false"></aura:attribute>
+    <lightning:card title="Submit Your Enquiry">
+        <aura:if isTrue="{!v.SuccessMsg}">
+            <span style="color:green;">Your enquiry Submitted successfully. We will connect with you soon</span>
+            <aura:set attribute="else">
+                <div class="slds-var-p-around_small">
+                    <lightning:recordEditForm objectApiName="Property_enquiry__c" onsuccess="{!c.handleSuccess}">
+                        <lightning:inputField fieldName="Property__c" value="{!v.propertyId}" variant="label-stacked"
+                            disabled="true"></lightning:inputField>
+                        <lightning:inputField fieldName="Name__c" variant="label-stacked">
+                        </lightning:inputField>
+                        <lightning:inputField fieldName="Email__c" variant="label-stacked">
+                        </lightning:inputField>
+                        <lightning:inputField fieldName="Phone__c" variant="label-stacked">
+                        </lightning:inputField>
+                        <lightning:inputField fieldName="Message__c" variant="label-stacked">
+                        </lightning:inputField>
+                        <lightning:button type="submit" name="Update" label="Submitted Enquiry" variant="brand"
+                            class="slds-var-m-top_small">
+                        </lightning:button>
+                    </lightning:recordEditForm>
+                </div>
+            </aura:set>
+        </aura:if>
+    </lightning:card>
+</aura:component>

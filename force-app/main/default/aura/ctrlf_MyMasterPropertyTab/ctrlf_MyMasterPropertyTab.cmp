@@ -1,0 +1,23 @@
+<aura:component controller="PropertyDetails"
+    implements="lightning:isUrlAddressable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes"
+    access="global">
+    <aura:attribute name="propertyId" type="String"></aura:attribute>
+    <aura:attribute name="property" type="Property__c"></aura:attribute>
+    <aura:attribute name="propertyFound" type="boolean" default="false"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.getSelectedProperty}" />
+
+    <lightning:tabset variant="scoped">
+        <lightning:tab label="Property Details">
+            One Content !
+        </lightning:tab>
+        <lightning:tab label="Pricing Details">
+            Two Content !
+        </lightning:tab>
+        <lightning:tab label="Owner Details">
+            Three Content !
+        </lightning:tab>
+        <lightning:tab label="Property Video">
+            four Content !
+        </lightning:tab>
+    </lightning:tabset>
+</aura:component>
